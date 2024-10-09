@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  gateway.api:
+    image: ${DOCKER_REGISTRY-}gatewayapi
+    build:
+      context: .
+      dockerfile: Gateway.API/Dockerfile
+    ports: 
+      - "5000:8080"
+      - "5001:443"

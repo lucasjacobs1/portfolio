@@ -1,0 +1,170 @@
+﻿@page "{id}"
+@using LogicLayer.Models
+@model DuelSys_Web.Pages.TournamentInformationModel
+@{
+}
+
+<body>
+	<br /><br />
+	<div class="flexboxHeading">
+		<div class="flexboxHeadingContent">
+			<div class="sizeText">
+				Tournament Information
+			</div>
+		</div>
+	</div>
+	<div class="tablefix">
+		<table class="table table-striped table-dark">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">description</th>
+					<th scope="col">start date</th>
+					<th scope="col">end date</th>
+					<th scope="col">location</th>
+					<th scope="col">minimum players</th>
+					<th scope="col">maximum players</th>
+					<th scope="col">sport</th>
+					<th scope="col">tournament type</th>
+					<th scope="col">Amount signed-up</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="col">@Model.tournament.Id</th>
+					<th scope="col">@Model.tournament.Description</th>
+					<th scope="col">@Model.tournament.StartDate.Date.ToString()</th>
+					<th scope="col">@Model.tournament.EndDate.Date</th>
+					<th scope="col">@Model.tournament.Location</th>
+					<th scope="col">@Model.tournament.MinimumPlayers</th>
+					<th scope="col">@Model.tournament.MaximumPlayers</th>
+					<th scope="col">@Model.sports[Model.tournament.SportId].Name</th>
+					<th scope="col">@Model.tournamentSystems[Model.tournament.TournamentTypeId].Name</th>
+					<th scope="col">@Model.ViewData[Model.tournament.Id.ToString()]</th>
+			</tbody>
+		</table>
+	</div>
+	<div class="flexboxHeading">
+		<div class="flexboxHeadingContent">
+			<div class="sizeText">
+				Not played matches
+			</div>
+		</div>
+	</div>
+	<div class="tablefix">
+		<table class="table table-striped table-dark">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Match Id</th>
+					<th scope="col">Player Home</th>
+					<th scope="col">Player Away</th>
+					<th scope="col">Score Home</th>
+					<th scope="col">Score Away</th>
+				</tr>
+				
+
+			</thead>
+
+			<tbody>
+				
+					@foreach(var match in Model.tournamentUnRegisteredMatches)
+					{
+						<tr>
+						<th scope="col">@match.Id</th>
+						<th scope="col">@Model.ViewData[$"{match.PlayerHomeId}player"]</th>
+						<th scope="col">@Model.ViewData[$"{match.PlayerAwayId}player"]</th>
+						<th scope="col">@ViewData["Na"]</th>
+						<th scope="col">@ViewData["Na"]</th>
+						</tr>
+					}
+
+					
+			</tbody>
+		</table>
+
+
+	</div>
+
+	<div class="flexboxHeading">
+		<div class="flexboxHeadingContent">
+			<div class="sizeText">
+				Played matches
+			</div>
+		</div>
+	</div>
+
+	<div class="tablefix">
+		<table class="table table-striped table-dark">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Match Id</th>
+					<th scope="col">Player Home</th>
+					<th scope="col">Player Away</th>
+					<th scope="col">Score Home</th>
+					<th scope="col">Score Away</th>
+				</tr>
+				
+
+			</thead>
+
+			<tbody>
+				
+					@foreach(var match in Model.tournamentRegisteredMatches)
+					{
+						<tr>
+							<th scope="col">@match.Id</th>
+							<th scope="col">@Model.ViewData[$"{match.PlayerHomeId}player"]</th>
+							<th scope="col">@Model.ViewData[$"{match.PlayerAwayId}player"]</th>
+							<th scope="col">@Model.ViewData[$"{match.Result.PlayerHomeScore}score"]</th>
+							<th scope="col">@Model.ViewData[$"{match.Result.PlayerAwayScore}score"]</th>
+						</tr>
+					}
+				
+				
+				
+			</tbody>
+		</table>
+
+
+	</div>
+
+	<div class="flexboxHeading">
+		<div class="flexboxHeadingContent">
+			<div class="sizeText">
+				Ranking
+			</div>
+		</div>
+	</div>
+
+	<div class="tablefix">
+		<table class="table table-striped table-dark">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Place</th>
+					<th scope="col">Firstname</th>
+					<th scope="col">Lastname</th>
+					<th scope="col">WinCounter</th>
+				</tr>
+				
+
+			</thead>
+
+			<tbody>
+				@foreach(var user in Model.Leaderboard)
+				{
+					<tr>
+						<th scope="col">@Model.ViewData[user.User.Id.ToString()]</th>
+						<th scope="col">@Model.ViewData[user.User.FirstName]</th>
+						<th scope="col">@Model.ViewData[user.User.LastName]</th>
+						<th scope="col">@Model.ViewData[user.Wincounter.ToString()]</th>
+
+					</tr>
+				}
+			</tbody>
+		</table>
+
+
+	</div>
+
+
+</body>

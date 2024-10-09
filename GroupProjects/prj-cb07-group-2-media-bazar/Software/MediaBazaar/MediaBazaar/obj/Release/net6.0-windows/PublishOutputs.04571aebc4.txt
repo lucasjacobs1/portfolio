@@ -1,0 +1,13 @@
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\MediaBazaar.exe
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\MediaBazaar.dll
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\MediaBazaar.deps.json
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\MediaBazaar.runtimeconfig.json
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\MediaBazaar.pdb
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\BouncyCastle.Crypto.dll
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\Google.Protobuf.dll
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\K4os.Compression.LZ4.dll
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\K4os.Compression.LZ4.Streams.dll
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\K4os.Hash.xxHash.dll
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\MySql.Data.dll
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\Ubiety.Dns.Core.dll
+C:\Users\Alexandru\Desktop\prj-cb07-group-2-media-bazar\Software\MediaBazaar\MediaBazaar\bin\Release\net6.0-windows\publish\ZstdNet.dll

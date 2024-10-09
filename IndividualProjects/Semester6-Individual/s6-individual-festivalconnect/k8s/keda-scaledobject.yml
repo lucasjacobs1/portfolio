@@ -1,0 +1,39 @@
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: mysql-auth
+  namespace: default
+spec:
+  secretTargetRef:
+  - parameter: username
+    name: identity-api-secret
+    key: username
+  - parameter: password
+    name: identity-api-secret
+    key: password
+
+---
+
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: identityapi-scaler
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: identityapi
+  pollingInterval: 10
+  cooldownPeriod: 30
+  maxReplicaCount: 10
+  triggers:
+    - type: mysql
+      metadata:
+        host: az-mysql-server-festivalconnect.mysql.database.azure.com
+        port: "3306"
+        dbName: kedaservicedatabase
+        query: "SELECT MAX(value) FROM (SELECT value FROM timeseries_forecast WHERE timestamp > CURRENT_TIMESTAMP ORDER BY timestamp LIMIT 3) t;"
+        queryValue: "1"
+        targetQueryValue: "1"
+        tagetValue: "1"
+      authenticationRef:
+        name: mysql-auth

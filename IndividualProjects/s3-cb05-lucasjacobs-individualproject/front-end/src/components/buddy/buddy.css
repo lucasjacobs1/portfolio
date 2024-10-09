@@ -1,0 +1,215 @@
+.flexboxHeaderRequest{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(10%);
+    text-align: center;
+    
+}
+
+.flexboxHeaderRequestContent{
+    background: rgba(15, 15, 15, 0.8);
+    width: 950px;
+    height: 100px;
+    margin: 25px;
+    border-radius: 20px;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+}
+
+.flexboxHeaderContent .style{
+    font-size: 30px;
+    color: white;
+}
+
+
+
+
+.flexboxRequest{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    
+}
+
+.flexboxRequestContent{
+    background: rgba(15, 15, 15, 0.8);
+    width: 850px;
+    height: 140px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+.flextboxInfoPendingUser{
+    display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+}
+
+.flextboxInfoPendingUserContent .style{
+    font-size: 15px;
+    color: white;
+
+}
+
+.flextboxInfoPendingUserContent{
+    width: 60%;
+    height: 140px;
+    padding: 12px 20px;
+    margin: 1px 0;
+    display: inline-block;
+    border: 1px solid rgb(191, 136, 35);
+    border-radius: 4px;
+    box-sizing: border-box;
+    transform: translateX(-5%);
+
+}
+
+.flextboxInfoPendingButtonChoiceContent{
+    width: 30%;
+    height: 140px;
+    padding: 12px 20px;
+    margin: 1px 0;
+    display: inline-block;
+    border: 1px solid rgb(22, 99, 148);
+    border-radius: 4px;
+    box-sizing: border-box;
+
+}
+
+.buttonAddPendingMatch{
+    background-color: rgb(82, 143, 218); 
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+    border-radius: 5px;
+    width: 100%;
+    height: 40%;
+  }
+
+  .buttonDeletePending{
+    background-color: rgb(212, 27, 27); 
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+    border-radius: 5px;
+    width: 100%;
+    height: 40%;
+  }
+
+  .buttonDeletePending:hover{
+    box-shadow: 0 12px 16px 0 rgba(186, 48, 23, 0.948),0 17px 50px 0;
+}
+
+.buttonAddPendingMatch:hover{
+    box-shadow: 0 12px 16px 0 rgba(30, 17, 204, 0.948),0 17px 50px 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .flexboxMatch{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: left;
+    
+}
+
+.flexboxMatchContent{
+    background: rgba(15, 15, 15, 0.8);
+    width: 850px;
+    height: 120px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+.flextboxInfoMatchUser{
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+
+}
+
+.flextboxInfoMatchUserContent .style{
+    font-size: 25px;
+    color: white;
+
+}
+
+.flextboxInfoMatchUserContent{
+    width: 60%;
+    height: 140px;
+    padding: 12px 20px;
+    margin: 1px 0;
+    display: inline-block;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transform: translateX(5%);
+
+}
+
+.flextboxInfoMatchChatButtonChoiceContent{
+    width: 30%;
+    height: 140px;
+    padding: 12px 20px;
+    margin: 1px 0;
+    display: inline-block;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+}
+
+.buttonGoToChat{
+    background-color: rgb(25, 96, 183); 
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 30px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+    border-radius: 20px;
+    width: 120%;
+    height: 50%;
+  }
+
+
+  .buttonGoToChat:hover{
+    box-shadow: 0 12px 16px 0 rgba(30, 17, 204, 0.948),0 17px 50px 0;
+}
+  

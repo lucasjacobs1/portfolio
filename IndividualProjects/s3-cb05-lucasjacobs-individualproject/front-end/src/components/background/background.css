@@ -1,0 +1,11 @@
+.BackgroundForEachPage{
+    background: linear-gradient(to left, #6cc4f0, #edbc78);
+    background-image: url('/public/pictureBackgroundStandard.jpg');
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    position: fixed;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover;
+}

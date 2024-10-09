@@ -1,0 +1,79 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.flexboxPersonalInfo {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(2%);
+    text-align: center;
+}
+
+    
+
+    .flexboxPersonalInforContent {
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 600px;
+        height: 1300px;
+        margin: 25px;
+        border-radius: 10px;
+        color: #ffff;
+        flex-direction: column;
+        justify-content: center;
+        padding: 5px;
+    }
+
+.flexboxPersonalInforContent span{
+    color: aqua;
+    font-size: 15px;
+}
+
+.flexboxSmallInfo {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(2%);
+    text-align: center;
+}
+
+.flexboxSmallInfoContent {
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 600px;
+    height: 550px;
+    margin: 25px;
+    border-radius: 10px;
+    color: #ffff;
+}
+
+.Title h1 {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid silver;
+    color: white;
+}
+
+.Title h5{
+    font-size: 19px;
+}
+
+.SizeText input[type = text] {
+    width: 50%;
+    border: 2px solid #06FEE0;
+    border-radius: 8px;
+    margin: 8px 0;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: large;
+}
+
+.SizeText input[readonly] {
+    border: 2px solid #000000;
+}
+
+
+

@@ -1,0 +1,26 @@
+﻿@page
+@model DuelSys_Web.Pages.RegisterModel
+@{
+}
+
+<body>
+	<div class="flexboxRegister">
+		<div class = "flexboxRegisterContent">
+			 <h1>Create Account</h1>
+			<div class="FLexBoxLogin-image FLexBoxLogin-image2"></div>
+			<form method="post">
+				<input type="text" asp-for="user.FirstName" placeholder="First name" /><br /><br />
+				<input type="text" asp-for="user.LastName" placeholder="Last name" /><br /><br />
+				<input type="text" asp-for="user.Email" placeholder="Email" /><br /><br />
+				<input type="password" asp-for="user.Password" placeholder="Password" /><br /><br />
+
+				<button class="button1" type="submit"
+                            value = "button">Create account
+                    </button>
+                   
+                    <button class="button1" type="button" value="Some text" onclick="window.location.href='@Url.Content("LoginPage")';"><span></span>Log in</button>
+
+			</form>
+		</div>
+	</div>
+</body>

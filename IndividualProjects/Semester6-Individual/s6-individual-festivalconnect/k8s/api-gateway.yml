@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gatewayapi-deployment
+spec:
+  selector:
+    matchLabels:
+      app: gatewayapi
+  template:
+    metadata:
+      labels:
+        app: gatewayapi
+    spec:
+      containers:
+      - name: gatewayapi
+        image: lucasjacobs/gatewayapi
+        env:
+        - name: AzureKeyVault__VaultName
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-api-config
+              key: azure_vault_name
+        - name: AzureKeyVault__ClientId
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-api-config
+              key: azure_vault_clientid
+        - name: AzureKeyVault__TenantId
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-api-config
+              key: azure_vault_tenantId
+        - name: AzureKeyVault__ClientSecret
+          valueFrom:
+            secretKeyRef:
+              name: gateway-api-secret
+              key: azure_vault_client_secret
+        #resources:
+        #  limits:
+        #    memory: "512Mi"
+        #    cpu: "100m"
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gatewayapi
+spec:
+  selector:
+    app: gatewayapi
+  ports:
+  - port: 8080
+    targetPort: 8080
+  type: LoadBalancer
+
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-api-config
+data:
+  azure_vault_name: individualkeyvault
+  azure_vault_clientid: 4d87d99b-5602-4c87-8d73-8f75a1646eaa
+  azure_vault_tenantId: ec456e71-dc0a-43b9-93d3-2ec74d22f9f0
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gateway-api-secret
+type: Opaque
+data:
+  azure_vault_client_secret: WEo5OFF+NmxXR19YZm1jLVhfTW9nRlU3eElQSEZOUWl6VDkyX2JWLg==
+
+---
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hoa-gatewayapi
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gatewayapi-deployment
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50

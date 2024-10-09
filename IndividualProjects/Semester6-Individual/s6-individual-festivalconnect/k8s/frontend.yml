@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux    
+      containers:
+      - name: frontend
+        image: lucasjacobs/frontend-festivalconnect:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: frontend
+        resources:
+          requests:
+            cpu: 1m
+            memory: 200Mi
+          limits:
+            cpu: 128Mi
+            memory: 512Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: default
+spec:
+  selector:
+    app: frontend
+  ports:
+  - name: http
+    port: 80        # The port that the service will expose
+    protocol: TCP
+    targetPort: 8080  # The port on the container
+  type: LoadBalancer
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-ingress
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/acme-challenge-type: http01
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - festivalconnect.germanywestcentral.cloudapp.azure.com
+    secretName: tls-secret
+  rules:
+  - host: festivalconnect.germanywestcentral.cloudapp.azure.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+

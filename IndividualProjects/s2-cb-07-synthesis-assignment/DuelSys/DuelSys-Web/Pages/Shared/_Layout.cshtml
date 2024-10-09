@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - DuelSys_Web</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/DuelSys_Web.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+	<link rel="stylesheet" href="~/css/Website.css" asp-append-version="true" />
+
+</head>
+<body>
+	<nav class="navbar bg-light fixed-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" asp-page="/Index">DuelSys inc.</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+				<i class="fas fa-bars"></i>
+			</button>
+			<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+				<div class="offcanvas-header">
+					<h5 class="offcanvas-title" id="offcanvasNavbarLabel">Select</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+				</div>
+				<div class="offcanvas-body">
+					<form method="post" asp-page="Logout">
+						<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" asp-page="/Index">Home</a>
+							</li>
+
+							<li class="nav-item">
+									<a class="nav-link" asp-page="/ViewTournaments">View/signup Tournaments</a>
+								</li><br />
+							@if (User.Identity.IsAuthenticated)
+							{
+								<li class="nav-item"><button class="button1" type="submit" onclick="return confirm('Are you sure you want to log out?')">Logout</button></li>
+							}
+							else
+							{
+								<li class="nav-item">
+									<a class="nav-link" asp-page="/LoginPage">Login</a>
+								</li>
+							}
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="background-image">
+		<div class="container">
+			<main role="main" class="pb-3">
+				@RenderBody()
+			</main>
+		</div>
+	</div>
+	
+
+
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await Component.InvokeAsync("Notyf")
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postapi
+spec:
+  selector:
+    matchLabels:
+      app: postapi
+  template:
+    metadata:
+      labels:
+        app: postapi
+    spec:
+      containers:
+      - name: postapi
+        image: lucasjacobs/postapi
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: post-api-config
+              key: aspnet_env_var
+        - name: AzureKeyVault__VaultName
+          valueFrom:
+            configMapKeyRef:
+              name: post-api-config
+              key: azure_vault_name
+        - name: AzureKeyVault__ClientId
+          valueFrom:
+            configMapKeyRef:
+              name: post-api-config
+              key: azure_vault_clientid
+        - name: AzureKeyVault__TenantId
+          valueFrom:
+            configMapKeyRef:
+              name: post-api-config
+              key: azure_vault_tenantId
+        - name: AzureKeyVault__ClientSecret
+          valueFrom:
+            secretKeyRef:
+              name: post-api-secret
+              key: azure_vault_client_secret
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postapi
+spec:
+  selector:
+    app: postapi
+  ports:
+  - port: 8080  
+    targetPort: 8080
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: post-api-config
+data:
+  azure_vault_name: individualkeyvault
+  azure_vault_clientid: 4d87d99b-5602-4c87-8d73-8f75a1646eaa
+  azure_vault_tenantId: ec456e71-dc0a-43b9-93d3-2ec74d22f9f0
+  aspnet_env_var: Production
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: post-api-secret
+type: Opaque
+data:
+  azure_vault_client_secret: WEo5OFF+NmxXR19YZm1jLVhfTW9nRlU3eElQSEZOUWl6VDkyX2JWLg==
+
+---
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hoa-postapi
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: postapi
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70

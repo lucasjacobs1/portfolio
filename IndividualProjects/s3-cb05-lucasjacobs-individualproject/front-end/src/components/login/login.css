@@ -1,0 +1,112 @@
+.flexboxHeader {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    transform: translateY(20%);
+    align-items: center;
+}
+
+.Background{
+    background-image: url('/public/pictureBackground.jpg');
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    position: fixed;
+    
+}
+
+.flexboxHeaderContent{
+    background: rgba(15, 15, 15, 0.8);
+    width: 70%;
+    height: 150px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+.headerFont{
+    font-size: 30px;
+}
+
+.headerinformation h1{
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid silver;
+    color: #ffffff;
+}
+.flexboxLogin {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: center;
+}
+
+.flexboxLogin a{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.flexboxLogin a:hover {font-size: 150%;}
+
+.flexboxLoginContent {
+    background: rgba(15, 15, 15, 0.8);
+    width: 350px;
+    height: 350px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+    
+}
+
+.flexboxLoginContent button{
+    background-color: rgb(82, 143, 218); 
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 0.1em solid deepskyblue;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 1.12em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 300;
+    color: deepskyblue;
+    text-align: center;
+    transition-duration: 0.4s;
+    margin: 5px;
+    padding: 15px 32px;
+    color: white;
+  
+  }
+
+  
+  .flexboxLoginContent button:hover{
+      box-shadow: 0 12px 16px 0 rgba(2, 185, 251, 0.948),0 17px 50px 0;
+  }
+
+  .flexboxLoginContent input[type = text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.flexboxLoginContent input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+

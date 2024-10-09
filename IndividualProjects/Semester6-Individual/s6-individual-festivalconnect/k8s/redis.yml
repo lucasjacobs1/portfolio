@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usercache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: usercache
+  template:
+    metadata:
+      labels:
+        app: usercache
+    spec:
+      containers:
+      - name: usercache
+        image: redis:latest
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi" 
+          limits:
+            cpu: "500m" 
+            memory: "256Mi" 
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: usercache
+spec:
+  selector:
+    app: usercache
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  #type: LoadBalancer

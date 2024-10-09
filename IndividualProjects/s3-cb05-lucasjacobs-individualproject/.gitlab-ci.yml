@@ -1,0 +1,50 @@
+image:
+  name: docker:git
+
+stages:
+- build
+- test
+- analayze
+- package
+
+services:
+  - docker:dind
+
+build:
+   stage: build
+   script:
+       - cd S3Project-FindYourTravelBuddy
+       - ./gradlew build -x test
+       - ./gradlew.bat --stop
+   artifacts:
+    paths:
+      - ./S3Project-FindYourTravelBuddy/build
+  
+
+test:
+    stage: test
+    script:
+     - cd S3Project-FindYourTravelBuddy
+     - ./gradlew test
+     - ./gradlew.bat --stop
+
+analayze:
+    stage: analayze
+    script:
+        - cd S3Project-FindYourTravelBuddy
+        - ./gradlew jacocoTestReport
+        - ./gradlew.bat --stop
+        - ./gradlew sonarqube -D'sonar.qualitygate.wait=true'
+        - ./gradlew.bat --stop
+    allow_failure: true
+
+docker-build:
+  stage: package
+  before_script:
+
+    - docker version
+    - docker-compose version
+  script:
+    - docker-compose down
+    - docker-compose build
+    - docker container ls -a

@@ -1,0 +1,1 @@
+Important .env and secret.json is not in the project for privacy reasons

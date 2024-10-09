@@ -1,0 +1,22 @@
+stages:
+- build
+- test
+- analyze
+- audit
+- publish
+- integration-test
+- security_scan
+- deploy
+- test-deployment
+
+include:
+  - local: '/festivalconnect-frontend/frontend-ci.yml'
+  - local: '/festivalconnect-services/User.API/User.API-ci.yml'
+  - local: '/festivalconnect-services/Community.API/Community.API-ci.yml'
+  - local: '/festivalconnect-services/Gateway.API/Gateway.API-ci.yml'
+  - local: '/festivalconnect-services/Post.API/Post.API-ci.yml'
+  - local: '/festivalconnect-services/Notification.API/Notification.API-ci.yml'
+  - local: '/festivalconnect-services/Identity.API/Identity.API-ci.yml'
+  #- template: Security/SAST.gitlab-ci.yml
+  #- template: Code-Quality.gitlab-ci.yml
+

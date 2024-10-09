@@ -1,0 +1,22 @@
+image: mcr.microsoft.com/dotnet/sdk:latest
+
+stages:
+  - build
+  - test
+  - sonarqube
+
+build:
+  stage: build
+  script:
+    - cd Backend
+    - dotnet build
+
+test:
+  stage: test
+  script:
+    - cd Backend
+    - dotnet test
+
+
+
+  

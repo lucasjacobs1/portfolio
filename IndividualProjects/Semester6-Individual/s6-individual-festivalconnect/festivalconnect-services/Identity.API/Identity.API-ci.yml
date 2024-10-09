@@ -1,0 +1,102 @@
+image: mcr.microsoft.com/dotnet/sdk:8.0
+
+identity-api-build:
+  stage: build
+  script:
+    - echo "Build Identity Api"
+    - 'cd festivalconnect-services/Identity.API/Identity.API'
+    - 'dotnet build'
+  rules:
+    - changes:
+      - "festivalconnect-services/Identity.API/**/*" #Only execute when there are changes in identity api directory
+
+
+identity-api-audit:
+  stage: audit
+  script:
+    - echo "Audit NuGet packages for Identity API"
+    - cd festivalconnect-services/Identity.API/Identity.API
+    - dotnet restore # Restore dependencies
+    - dotnet list package --vulnerable # Check for vulnerable packages
+    - dotnet list package --outdated # Check for outdated packages
+  allow_failure: true
+  rules:
+    - changes:
+        - "festivalconnect-services/Identity.API/**/*" # Only execute when there are changes in community api directory
+
+sonarqube-check-identity:
+  stage: analyze
+  image: mcr.microsoft.com/dotnet/core/sdk:latest
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - cd festivalconnect-services/Identity.API
+    - dotnet tool install --global dotnet-coverage  # Install dotnet-coverage tool
+    - dotnet tool list -g
+    - dotnet sonarscanner begin /k:"FestivalConnect-Identity.API" /d:sonar.login="$SONAR_TOKEN_IDENTITY_API" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+    - dotnet build
+    - dotnet-coverage collect 'dotnet test --logger:"console;verbosity=detailed"' -f xml -o 'coverage.xml'  # Ensure tests run with coverage
+    - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN_IDENTITY_API"
+    - dotnet build-server shutdown
+  allow_failure: true
+  rules:
+    - changes:
+      - "festivalconnect-services/Identity.API/**/*"  # Only execute when there are changes in identity API directory
+
+identity-api-tests:
+  stage: test
+  script:
+    - echo "Run Tests of Identity API"
+    - 'cd festivalconnect-services/Identity.API/IdentityApiTests'
+    - 'dotnet test'
+  rules:
+    - changes:
+      - "festivalconnect-services/Identity.API/**/*" #Only execute when there are changes in identity api directory
+
+identity-docker-build:
+  stage: publish
+  before_script:
+    - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  script:
+    - echo "Deployment for identity services"
+    - |
+      if (docker images -q identityapi) {
+        docker rmi identityapi
+      }
+    - docker build /Users/2003l/Videos/S6-Individual-FestivalConnect/s6-individual-festivalconnect/festivalconnect-services/Identity.API/. -t identityapi
+    - docker tag identityapi lucasjacobs/identityapi
+    - docker push lucasjacobs/identityapi
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "master" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      changes:
+        - "festivalconnect-services/Identity.API/**/*"
+
+identityapi_security_scan:
+  stage: security_scan
+  image: aquasec/trivy:latest
+  script:
+    - trivy image --exit-code 0 --severity HIGH,CRITICAL lucasjacobs/identityapi #scans the docker image for vunerabilities of high and critical severity
+    - trivy config --exit-code 0 --severity HIGH,CRITICAL k8s/identity-api.yml #scans k8s configuration file of identity for misconfigurations with high and critical severity
+    - trivy filesystem --exit-code 0 --severity HIGH,CRITICAL ./festivalconnect-services/Identity.API #scans local file of the identity  for high and critical severity
+  allow_failure: true
+
+identity-deploy:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli
+  script:
+    - echo "Deployment for identity service"
+    - echo "login to azure"
+    - az login --service-principal -u "$AZURE_APP_ID" -p "$AZURE_PASSWORD" --tenant "$AZURE_TENANT_ID"
+    - az account set --subscription "$AZURE_SUBSCRIPTION_ID"
+    - echo "specific credentials for the aks"
+    - az aks get-credentials --resource-group "$AKS_RESOURCE_GROUP" --name "$AKS_CLUSTER_NAME" --overwrite-existing
+    - echo "deploy to AKS"
+    - cd k8s
+    - kubectl apply -f identity-api.yml
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'

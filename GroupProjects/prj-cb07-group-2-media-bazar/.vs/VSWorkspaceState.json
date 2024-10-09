@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Software",
+    "\\Software\\MediaBazaar",
+    "\\Software\\MediaBazaar\\MediaBazaar",
+    "\\Software\\MediaBazaar\\MediaBazaarWeb",
+    "\\Software\\MediaBazaar\\MediaBazaarWeb\\Pages",
+    "\\Software\\MediaBazaar\\MediaBazaarWeb\\Pages\\Shared",
+    "\\Software\\MediaBazaar\\MediaBazaar\\Dashboard",
+    "\\Software\\MediaBazaar\\MediaBazaar\\Dashboard\\ScheduleSystemForms",
+    "\\Software\\MediaBazaar\\MediaBazaar\\Dashboard\\StatisticsForms",
+    "\\Software\\MediaBazaar\\MediaBazaar\\Logic Layer"
+  ],
+  "SelectedNode": "\\Software\\MediaBazaar\\MediaBazaar\\Dashboard\\StatisticsForms\\MainStatistics.cs",
+  "PreviewInSolutionExplorer": false
+}

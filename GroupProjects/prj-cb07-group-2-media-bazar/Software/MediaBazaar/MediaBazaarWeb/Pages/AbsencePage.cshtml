@@ -1,0 +1,55 @@
+﻿@page
+@model MediaBazaarWeb.Pages.AbsencePageModel
+@{
+}
+
+
+<section class="flexboxAbsenceinfo">
+	<div class="flexboxAbsenceContent">
+		<div class="TextAbsence">
+			<form method="post">
+				<h1>One day absenced</h1>
+				<input type="text" value="@ViewData["Name"]" readonly /><br />
+
+				<input type="text" value="@ViewData["Id"]" readonly><br>
+
+				<span asp-validation-for="absence.Date"></span>
+				<input type="date" asp-for="absence.Date" placeholder="date" />
+
+				<span asp-validation-for="absence.Reason"></span>
+				<textarea id="description" asp-for="absence.Reason" placeholder="Reason" rows="5" cols="30"></textarea>
+
+				<button type="submit" class="button" value="Absence" onclick="return confirm('Are you sure everything is correct?')" id="Absence" asp-page-handler="Absence"><span></span>Send</button>
+
+			</form>
+		</div>
+	</div>
+</section>
+
+<section class="flexboxVacationinfo">
+	<div class="flexboxVacationContent">
+		<div class="TextAbsence">
+			<form method="post">
+				<h1>Vacation</h1>
+				<input type="text" value="@ViewData["Name"]" readonly /><br />
+
+				<h4>Start date</h4>
+				<input type="date" asp-for="vacation.StartDate" placeholder="start date" />
+
+				<h4>End date</h4>
+				<input type="date" asp-for="vacation.EndDate" placeholder="end date" />
+
+				<span asp-validation-for="absence.Reason"></span>
+				<textarea id="description" asp-for="vacation.Reason" placeholder="Reason" rows="5" cols="30"></textarea>
+
+				<button type="submit" class="button" value="Vacation" onclick="return confirm('Are you sure everything is correct?')" id="Vacation" asp-page-handler="Vacation"><span></span>Send</button>
+
+			</form>
+		</div>
+	</div>
+</section>
+
+
+@section scripts{
+<partial name="_ValidationScriptsPartial" />
+}

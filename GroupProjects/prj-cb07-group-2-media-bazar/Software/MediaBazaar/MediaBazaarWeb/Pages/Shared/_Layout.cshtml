@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+	<link rel="stylesheet" href="~/css/stylesheet.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/css/Styling.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/css/PersonalInformationStyle.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/css/TableStyling.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/css/Navbar.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/css/AbsencePageStyle.css" asp-append-version="true">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+</head>
+<body>
+	<!--<div class="navbar2">
+		<img src="~/images/logoMBTransparent.png" class="logo">
+
+		@if (User.Identity.IsAuthenticated)
+		{
+			<ul>
+				<li><button class="button" onclick="window.location.href='@Url.Content("PersonalInformation")';">Personal Information</button></li>
+				<li><button class="button" onclick="window.location.href='@Url.Content("Schedule")';">Schedule</button></li>
+				<form method="post" asp-page="Logout">
+				<li><button class="button" onclick="return confirm('Are you sure you want to Log out?')" type="submit">Log out</button></li>
+				</form>
+
+			</ul>
+
+		}
+
+
+	</div>-->
+
+	
+
+	 <nav>
+      <input type="checkbox" id="check">
+      <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+      </label>
+		<img src="~/images/logoMBTransparent.png" class="logo">
+      <ul>
+        <form method="post" asp-page="Logout">
+				@if (User.Identity.IsAuthenticated)
+				{
+				<li><a asp-area="" asp-page="/Schedule"><span class="far fa-calendar"></span> Schedule</a></li>
+				<li><a asp-area="" asp-page="/PersonalInformation"><span class="far fa-user"> Personal Information</a></li>
+				<li><a asp-area="" asp-page="/AbsencePage"><span class="far fa-envelope"></span> Leave of absence</a></li>
+				
+				<button class="button" onclick="return confirm('Are you sure you want to Log out?')" type="submit">Log out</button>
+				
+				}
+				</form>
+      </ul>
+    </nav>
+    <section></section>
+
+	
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await Component.InvokeAsync("Notyf")
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

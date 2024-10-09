@@ -1,0 +1,27 @@
+﻿.table {
+    width: 800px;
+    border-collapse: collapse;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+    padding: 15px 10px 15px;
+    width: 5%;
+    background-color: #99ddcc;
+    color: #141516;
+}
+
+th {
+    text-align: left;
+    font-size: 24px;
+}
+
+thead {
+    th
+
+{
+    background-color: #55608f;
+}
+}

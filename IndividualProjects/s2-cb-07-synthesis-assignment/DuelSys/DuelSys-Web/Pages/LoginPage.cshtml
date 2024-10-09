@@ -1,0 +1,26 @@
+﻿@page
+@model DuelSys_Web.Pages.LoginPageModel
+@{
+}
+<body>
+    <div class="flexboxLogin">
+        <div class="InformationFlexBox">
+            <div class="FLexBoxLogin-image FLexBoxLogin-image1"></div>
+            <form method="post">
+                <input type = "text" asp-for="login.Email" placeholder="Email" /><br />
+                <input type="password" asp-for="login.Password" placeholder="Password" /><br /><br />
+               
+                    <button class="button1" type="submit"
+                            value = "button">Sign in
+                    </button>
+                   
+                    <button class="button1" type="button" value="Some text" onclick="window.location.href='@Url.Content("Register")';"><span></span>Register</button>
+
+                
+            </form>
+        </div>
+    </div>
+    	
+
+
+</body>

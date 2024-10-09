@@ -1,0 +1,33 @@
+﻿@page
+@model MediaBazaarWeb.Pages.IndexModel
+@{
+    ViewData["Title"] = "Login page";
+}
+
+<div class="banner">
+</div>
+<div class="center">
+    @if (!User.Identity.IsAuthenticated)
+    {
+         <h1>Login</h1>
+    <form method="post">
+        <div class="txt_field">
+            <input asp-for="logins.email" type="text" required />
+            <span asp-validation-for="logins.email"></span>
+            <label>email</label>
+        </div>
+        <div class="txt_field">
+            <input asp-for="logins.password" type="password" required />
+            <span asp-validation-for="logins.password"></span>
+            <label>Password</label>
+        </div>
+        <input type="submit" value="Login">
+        </form>
+    }
+    else
+    {
+        <h1>Welcome</h1>
+        <h2>@ViewData["name"]</h2>
+    }
+
+</div>

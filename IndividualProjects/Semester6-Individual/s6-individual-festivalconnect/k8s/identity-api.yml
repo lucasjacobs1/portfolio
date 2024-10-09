@@ -1,0 +1,151 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identityapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identityapi
+  template:
+    metadata:
+      labels:
+        app: identityapi
+    spec:
+      containers:
+      - name: identityapi
+        image: lucasjacobs/identityapi
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: identity-api-config
+              key: aspnet_env_var
+        - name: AzureKeyVault__VaultName
+          valueFrom:
+            configMapKeyRef:
+              name: identity-api-config
+              key: azure_vault_name
+        - name: AzureKeyVault__ClientId
+          valueFrom:
+            configMapKeyRef:
+              name: identity-api-config
+              key: azure_vault_clientid
+        - name: AzureKeyVault__TenantId
+          valueFrom:
+            configMapKeyRef:
+              name: identity-api-config
+              key: azure_vault_tenantId
+        - name: AzureKeyVault__ClientSecret
+          valueFrom:
+            secretKeyRef:
+              name: identity-api-secret
+              key: azure_vault_client_secret
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: identityapi
+spec:
+  selector:
+    app: identityapi
+  ports:
+  - port: 8080  
+    targetPort: 8080
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: identity-api-config
+data:
+  azure_vault_name: individualkeyvault
+  azure_vault_clientid: 4d87d99b-5602-4c87-8d73-8f75a1646eaa
+  azure_vault_tenantId: ec456e71-dc0a-43b9-93d3-2ec74d22f9f0
+  aspnet_env_var: Production
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: identity-api-secret
+type: Opaque
+data:
+  azure_vault_client_secret: WEo5OFF+NmxXR19YZm1jLVhfTW9nRlU3eElQSEZOUWl6VDkyX2JWLg==
+  username: ZmNh
+  password: QmVlcnRqZTEyMw==
+
+---
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hoa-identityapi
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: identityapi
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: identity-scale-up-for-weekend
+spec:
+  schedule: "0 10 * * 5"  # 10:00 AM on Fridays
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: scale
+            image: bitnami/kubectl:latest
+            command:
+            - /bin/sh
+            - -c
+            - kubectl scale deployment identityapi --replicas=10
+          restartPolicy: OnFailure
+
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: identity-scale-down-after-weekend
+spec:
+  schedule: "0 9 * * 1"  # 9:00 AM on Mondays
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: scale
+            image: bitnami/kubectl:latest
+            command:
+            - /bin/sh
+            - -c
+            - kubectl scale deployment identityapi --replicas=1
+          restartPolicy: OnFailure

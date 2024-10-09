@@ -1,0 +1,92 @@
+﻿@page
+@model MediaBazaarWeb.Pages.PersonalInformationModel
+@{
+}
+
+<body>
+
+
+	<form method="post">
+
+	<div class="flexboxPersonalInfo">
+		<div class="flexboxPersonalInforContent">
+			<div class="Title">
+				<h1>Personal information</h1>
+				<h4>Read only</h4>
+				<div class="SizeText">
+
+						<h5>First name</h5><input type="text" asp-for="employee.FirstName" readonly>
+						<h5>Last name</h5><input type="text" asp-for="employee.LastName" readonly>
+						<h5>ID</h5><input type="text" asp-for="employee.ID" readonly>
+
+						<h5>Salary</h5><input type="text" asp-for="employee.Salary" readonly>
+
+						<h5>FTE</h5><input type="text" asp-for="employee.FTE" readonly>
+						<h5>BSN</h5><input type="text" asp-for="employee.Bsn" readonly>
+
+				</div>
+			</div>
+		</div>
+
+
+		<div class="flexboxPersonalInforContent">
+			<div class="Title">
+				<h1>Personal information</h1>
+				<h4>Changeable</h4>
+				<div class="SizeText">
+					
+
+						<h5>Email</h5><input type="text" asp-for="employee.Email"><br />
+						<span>@ViewData["Email"]</span>
+
+						<h5>Street</h5><input type="text" asp-for="employee.Street"><br />
+						<span>@ViewData["Street"]</span>
+
+						<h5>Housenumber</h5><input type="text" asp-for="employee.HouseNumber"><br />
+						<span>@ViewData["HouseNumber"]</span>
+
+
+						<h5>City</h5><input type="text" asp-for="employee.City"><br />
+						<span>@ViewData["City"]</span>
+
+						<h5>Postalcode</h5><input type="text" asp-for="employee.PostalCode"><br />
+						<span>@ViewData["PostalCode"]</span>
+
+
+						<h5>Phone</h5><input type="text" asp-for="phone"><br />
+						<span>@ViewData["PhoneNumber"]</span>
+						<br />
+						<button class="button" type="submit" value="Update" onclick="return confirm('Are you sure you everything is filled in correctly?')" id="Update" asp-page-handler="Update">Request update information</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+
+
+	<div class="flexboxSmallInfo">
+		<div class="flexboxSmallInfoContent">
+			<div class="SizeText">
+
+				<div class="Title">
+					<h1>Contact Information</h1>
+					<form method="post">
+						<h5>Name</h5><input type="text" asp-for="ContactPerson.Name" />
+						<h5>Email</h5><input type="text" asp-for="ContactPerson.Email" />
+						<h5>Phone</h5><input type="text" asp-for="ContactPerson.Phone" /> <br /><br />
+						<button class="button" type="submit" onclick="return confirm('Are you sure you want to update your date?')" value="ContactUpdate" id="ContactUpdate" asp-page-handler="ContactUpdate">Update</button>
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+</body>

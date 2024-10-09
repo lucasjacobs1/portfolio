@@ -1,0 +1,174 @@
+.flexboxUserFunctions{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(20%);
+    text-align: center;
+    
+}
+
+.flexboxUserFunctionsContent{
+    background: rgba(15, 15, 15, 0.8);
+    width: 950px;
+    height: 150px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+.flexboxUserFunctionsContent select{
+    width: 80%;
+    padding: 12px 20px;
+    margin: 1px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+
+.flexboxBodyUser{
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flexboxBodyUserContent{
+    background: rgba(15, 15, 15, 0.8);
+    width: 450px;
+    height: 250px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+    color: white;
+}
+
+.strong{
+    font-weight: bold;
+}
+
+.flextboxChangebleInfo{
+    display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+}
+
+.flexboxChangebleInfoContent{
+    width: 60%;
+    height: 240px;
+    padding: 12px 20px;
+    margin: 1px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transform: translateX(-10%);
+
+}
+
+.flexboxOperationInfoContent{
+    width: 25%;
+    padding: 12px 20px;
+    margin: 1px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transform: translateX(10%);
+  
+  }
+  
+
+ul{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    transform: translateX(-2%);
+  }
+
+  .buttonUpdateUser{
+    background-color: rgb(82, 143, 218); 
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+    border-radius: 5px;
+    width: 100%;
+    height: 40%;
+  }
+
+  .buttonDeleteUser{
+    background-color: rgb(212, 27, 27); 
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+    border-radius: 5px;
+    width: 100%;
+    height: 40%;
+  }
+
+  .buttonDeleteUser:hover{
+    box-shadow: 0 12px 16px 0 rgba(245, 186, 7, 0.948),0 17px 50px 0;
+}
+
+.buttonUpdateUser:hover{
+    box-shadow: 0 12px 16px 0 rgba(49, 231, 231, 0.948),0 17px 50px 0;
+}
+
+
+ /* @media (max-width: 602px){
+    .flextboxChangebleInfo{
+      display: grid;
+      justify-items: center;
+    }
+    .flexboxChangebleInfoContent{
+      width: 400px;
+      transform: translateX(-10%);
+  
+  }
+  
+  .flexboxOperationInfoContent{
+    width: 200px;
+    transform: translateX(-10%);
+    
+  
+  }
+  
+  
+  }*/
+
+  .flexboxChangebleInfoContent input{
+    width: 90%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+  }
+
+
+
+  
+
+        
+
+

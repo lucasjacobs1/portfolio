@@ -1,0 +1,112 @@
+services:
+  user.api:
+    image: userapi
+    container_name: userapi
+    build: ./festivalconnect-services/User.API/
+    ports: 
+      - "5100:8080"
+      - "5101:443"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      userservicedatabase:
+        condition: service_healthy
+    environment:
+      AzureKeyVault__ClientSecret: ${AZUREKEYVAULT_CLIENTSECRET}
+      AzureKeyVault__ClientId: ${AZUREKEYVAULT_CLIENTID}
+      AzureKeyVault__TenantId: ${AZUREKEYVAULT_TENANTID}
+      AzureKeyVault__VaultName: ${AZUREKEYVAULT_VAULTNAME}
+      ASPNETCORE_ENVIRONMENT: Development
+
+  userservicedatabase:
+    image: mysql:latest
+    container_name: userservicedatabase
+    ports:
+      - "3308:3306"
+    expose:
+      - "3308"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
+      MYSQL_DATABASE: userservicedatabase
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -P 3306 -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      retries: 10
+      start_period: 30s
+      
+  user.cache:
+    container_name: usercache
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+
+  identity.api:
+    image: identityapi
+    container_name: identityapi
+    build: ./festivalconnect-services/Identity.API/
+    ports: 
+      - "5500:8080"
+      - "5501:443"
+    depends_on:
+       rabbitmq:
+        condition: service_healthy
+       identityservicedatabase:
+        condition: service_healthy
+    environment:
+      AzureKeyVault__ClientSecret: ${AZUREKEYVAULT_CLIENTSECRET}
+      AzureKeyVault__ClientId: ${AZUREKEYVAULT_CLIENTID}
+      AzureKeyVault__TenantId: ${AZUREKEYVAULT_TENANTID}
+      AzureKeyVault__VaultName: ${AZUREKEYVAULT_VAULTNAME}
+      ASPNETCORE_ENVIRONMENT: Development
+
+  identityservicedatabase:
+    image: mysql:latest
+    container_name: identityservicedatabase
+    ports:
+      - "3305:3306"
+    expose:
+      - "3305"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
+      MYSQL_DATABASE: identityservicedatabase 
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -P 3306 -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      retries: 10
+      start_period: 30s
+     
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"  # RabbitMQ AMQP port
+      - "15672:15672"  # RabbitMQ management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      retries: 10
+      start_period: 30s
+
+  gateway.api:
+    image: gatewayapi
+    build: ./festivalconnect-services/Gateway.API/
+    ports: 
+      - "5000:8080"
+      - "5001:443"
+    environment:
+      AzureKeyVault__ClientSecret: ${AZUREKEYVAULT_CLIENTSECRET}
+      AzureKeyVault__ClientId: ${AZUREKEYVAULT_CLIENTID}
+      AzureKeyVault__TenantId: ${AZUREKEYVAULT_TENANTID}
+      AzureKeyVault__VaultName: ${AZUREKEYVAULT_VAULTNAME}
+      ASPNETCORE_ENVIRONMENT: Development
+            
+networks:
+  rabbitmq-network:

@@ -1,0 +1,122 @@
+image: node:20.11.1
+
+variables:
+  CI: "false"
+
+front-end-built:
+  stage: build
+  script:
+    - echo "Build Frontend"
+    - cd festivalconnect-frontend
+    - npm ci
+    - npm run build
+  rules:
+  - changes:
+      - "festivalconnect-frontend/**/*" #Only execute when there are changes in front end directory
+
+frontend-npm-audit:
+  stage: audit
+  image: node:20.11.1
+  script:
+    - echo "Running npm audit for frontend"
+    - cd festivalconnect-frontend
+    - npm ci
+    - npm audit --audit-level=moderate 
+  rules:
+    - changes:
+        - "festivalconnect-frontend/**/*" # Only execute when there are changes in front end directory
+
+
+chrome-test:
+  image: node:latest      
+  stage: test
+  script:
+    - echo "Running Front-end Tests"
+    - cd festivalconnect-frontend
+    - npm ci
+    - npm run dev &
+    - npx cypress run --browser chrome --spec 'cypress/e2e/local/**/*.spec.cy.js'
+    - npm stop dev  
+  rules:
+  - changes:
+      - "festivalconnect-frontend/**/*" #Only execute when there are changes in front end directory
+
+firefox-test:
+  image: node:latest
+  stage: test
+  script:
+    - echo "Running Front-end Tests"
+    - cd festivalconnect-frontend
+    - npm ci
+    - npm run dev &
+    - npx cypress run --browser firefox --spec 'cypress/e2e/local/**/*.spec.cy.js'
+    - npm stop dev
+  rules:
+  - changes:
+      - "festivalconnect-frontend/**/*" #Only execute when there are changes in front end directory
+
+#scans for vunerabiliities in my image
+frontend_security_scan:
+  stage: security_scan
+  image: aquasec/trivy:latest
+  script:
+    - trivy image --exit-code 0 --severity HIGH,CRITICAL lucasjacobs/frontend-festivalconnect #scans the docker image for vunerabilities of high and critical severity
+    - trivy config --exit-code 0 --severity HIGH,CRITICAL k8s/frontend.yml #scans k8s configuration file of frontend for misconfigurations with high and critical severity
+    - trivy filesystem --exit-code 0 --severity HIGH,CRITICAL ./festivalconnect-frontend #scans local file of the front end  for high and critical severity
+  allow_failure: true
+
+
+frontend-docker-build:
+  stage: publish
+  script:
+    - echo "publish for frontend service"
+    - |
+      if (docker images -q frontend-festivalconnect) {
+        docker rmi frontend-festivalconnect
+      }
+    - docker build /Users/2003l/Videos/S6-Individual-FestivalConnect/s6-individual-festivalconnect/festivalconnect-frontend/. -t frontend-festivalconnect
+    - docker tag frontend-festivalconnect lucasjacobs/frontend-festivalconnect    
+    - docker push lucasjacobs/frontend-festivalconnect
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "master" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      changes:
+        - "festivalconnect-frontend/**/*" #Only execute when there are changes in front end directory
+
+frontend-deploy:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli
+  script:
+    - echo "Deployment for frontend service"
+    - echo "login to azure"
+    - az login --service-principal -u "$AZURE_APP_ID" -p "$AZURE_PASSWORD" --tenant "$AZURE_TENANT_ID"
+    - az account set --subscription "$AZURE_SUBSCRIPTION_ID"
+    - echo "specific credentials for the aks"
+    - az aks get-credentials --resource-group "$AKS_RESOURCE_GROUP" --name "$AKS_CLUSTER_NAME" --overwrite-existing
+    - echo "deploy to AKS"
+    - cd k8s
+    - kubectl apply -f frontend.yml
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+
+chrome-test-deployment:
+  image: node:latest      
+  stage: test-deployment
+  script:
+    - echo "Running Front-end Tests for deployment"
+    - cd festivalconnect-frontend
+    - npm ci
+    - npx cypress run --browser chrome --spec 'cypress/e2e/deployment/**/*.spec.cy.js'
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+
+firefox-test-deployment:
+  image: node:latest
+  stage: test-deployment
+  script:
+    - echo "Running Front-end Tests for deployment"
+    - cd festivalconnect-frontend
+    - npm ci
+    - npx cypress run --browser firefox --spec 'cypress/e2e/deployment/**/*.spec.cy.js'
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+

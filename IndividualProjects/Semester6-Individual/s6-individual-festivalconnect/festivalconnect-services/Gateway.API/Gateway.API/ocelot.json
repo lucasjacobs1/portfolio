@@ -1,0 +1,125 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/Identity/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "identityapi",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/Identity/register",
+      "UpstreamHttpMethod": [ "Post" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "identityapi",
+          "Port": 8080
+        }
+      ],
+      "DownstreamPathTemplate": "/Identity/login",
+      "DownstreamScheme": "http",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamPathTemplate": "/Identity/login"
+    },
+    {
+      "DownstreamPathTemplate": "/user",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userapi",
+          "Port": 8080
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "UpstreamPathTemplate": "/user",
+      "UpstreamHttpMethod": [ "Put" ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/User/GetByIdentityId",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userapi",
+          "Port": 8080
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "UpstreamPathTemplate": "/User/GetByIdentityId",
+      "UpstreamHttpMethod": [ "Get" ],
+      //"RateLimitOptions": {
+      //  "EnableRateLimiting": true,
+      //  "Period": "1s",
+      //  "PeriodTimespan": 2,
+      //  "Limit": 2
+      //},
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/identity",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "identityapi",
+          "Port": 8080
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "UpstreamPathTemplate": "/identity",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/post",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "postapi",
+          "Port": 8080
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "UpstreamPathTemplate": "/post",
+      "UpstreamHttpMethod": [ "Post" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    }
+
+  ]
+}

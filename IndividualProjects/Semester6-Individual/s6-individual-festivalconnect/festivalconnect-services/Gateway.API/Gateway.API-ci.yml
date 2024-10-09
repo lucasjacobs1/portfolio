@@ -1,0 +1,67 @@
+image: mcr.microsoft.com/dotnet/sdk:8.0
+
+gateway-api-build:
+  stage: build
+  script:
+    - 'cd festivalconnect-services/Gateway.API/Gateway.API'
+    - 'dotnet build'
+  rules:
+    - changes:
+      - "festivalconnect-services/Gateway.API/**/*" #Only execute when there are changes in user api directory
+
+gateway-api-audit:
+  stage: audit
+  script:
+    - echo "Audit NuGet packages for gateway API"
+    - cd festivalconnect-services/Gateway.API/Gateway.API
+    - dotnet restore # Restore dependencies
+    - dotnet list package --vulnerable # Check for vulnerable packages
+    - dotnet list package --outdated # Check for outdated packages
+  allow_failure: true
+  rules:
+    - changes:
+        - "festivalconnect-services/Gateway.API/**/*" # Only execute when there are changes in community api directory
+
+gateway-docker-build:
+  stage: publish
+  before_script:
+    - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  script:
+    - echo "Deployment for gateway service"
+    - |
+      if (docker images -q gatewayapi) {
+        docker rmi gatewayapi
+      }
+    - docker build /Users/2003l/Videos/S6-Individual-FestivalConnect/s6-individual-festivalconnect/festivalconnect-services/Gateway.API/. -t gatewayapi
+    - docker tag gatewayapi lucasjacobs/gatewayapi
+    - docker push lucasjacobs/gatewayapi
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "master" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      changes:
+        - "festivalconnect-services/Gateway.API/**/*"
+
+gatewayapi_security_scan:
+  stage: security_scan
+  image: aquasec/trivy:latest
+  script:
+    - trivy image --exit-code 0 --severity HIGH,CRITICAL lucasjacobs/gatewayapi #scans the docker image for vunerabilities of high and critical severity
+    - trivy config --exit-code 0 --severity HIGH,CRITICAL k8s/api-gateway.yml #scans k8s configuration file of gateway for misconfigurations with high and critical severity
+    - trivy filesystem --exit-code 0 --severity HIGH,CRITICAL ./festivalconnect-services/Gateway.API #scans local file of the front end  for high and critical severity
+  allow_failure: true
+
+
+gateway-deploy:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli
+  script:
+    - echo "Deployment for gateway service"
+    - echo "login to azure"
+    - az login --service-principal -u "$AZURE_APP_ID" -p "$AZURE_PASSWORD" --tenant "$AZURE_TENANT_ID"
+    - az account set --subscription "$AZURE_SUBSCRIPTION_ID"
+    - echo "specific credentials for the aks"
+    - az aks get-credentials --resource-group "$AKS_RESOURCE_GROUP" --name "$AKS_CLUSTER_NAME" --overwrite-existing
+    - echo "deploy to AKS"
+    - cd k8s
+    - kubectl apply -f api-gateway.yml
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'

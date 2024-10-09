@@ -1,0 +1,84 @@
+﻿@page
+@model Group_Project_Website.Pages.ScheduleModel
+@{
+    
+    <div class="navbar">
+    <form method="post">
+           <button class="button", asp-page-handler="Previous"  style="float:left;">Previous Week</button>
+           <h1 style="float:left; padding: 0px 25px;">Week: @Logic.scheduleHandler.selectedweek</h1>
+           <button class="button", asp-page-handler="Next" type="submit"  style="float:left;">Next Week</button>
+    </form>
+    </div>
+
+    Logic.scheduleHandler handler = new Logic.scheduleHandler();
+    string[] Tableheaders = new string[] {
+            "",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+    };
+<background>
+    <table>
+        <thead>
+            <tr>
+                @{
+                    foreach (var head in Tableheaders)
+                    {
+                        <th>
+                            @head
+                        </th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Morning</td>
+                @{ for (int i = 0; i <= 6; i++)
+                    {
+                        foreach (Logic.ScheduleInfo info in handler.getAllShifts(ScheduleModel.name))
+                        {
+                            if (i == Convert.ToInt32(info.weekday) && info.type == "1" && Logic.scheduleHandler.selectedweek == info.week &&Logic.scheduleHandler.selectedyear == Convert.ToInt32(info.year))
+                            { <td style="background-color: #5dce92"></td> i++;
+                            }
+                        }
+                     <td style="background-color: #b34b4b "></td>
+                    }
+                }
+            </tr>
+            <tr>
+                <td>After Noon</td>
+                @{ for (int i = 0; i <= 6; i++)
+                    {
+                        foreach (Logic.ScheduleInfo info in handler.getAllShifts(ScheduleModel.name))
+                        {
+                            if (i == Convert.ToInt32(info.weekday) && info.type == "2" && Logic.scheduleHandler.selectedweek == info.week && Logic.scheduleHandler.selectedyear == Convert.ToInt32(info.year))
+                            {<td style="background-color: #5dce92"></td> i++; }
+                        }
+                        <td style="background-color: #b34b4b "></td>
+                    }
+                }
+            </tr>
+            <tr>
+                <td>Evening</td>
+                @{ for (int i = 0; i <= 6; i++)
+                    {
+                        foreach (Logic.ScheduleInfo info in handler.getAllShifts(ScheduleModel.name))
+                        {
+                            if (i == Convert.ToInt32(info.weekday) && info.type == "3" && Logic.scheduleHandler.selectedweek == info.week && Logic.scheduleHandler.selectedyear == Convert.ToInt32(info.year))
+                            { <td style="background-color: #5dce92"></td> i++;}
+                        }
+                        <td style="background-color: #b34b4b"></td>
+                    }
+                }
+            </tr>
+        </tbody>
+    </table>
+    <h1 style="color: #5dce92">green = shift planned </h1>
+    <h1 style="color: #b34b4b">red = no shift planned</h1>
+</background>
+}

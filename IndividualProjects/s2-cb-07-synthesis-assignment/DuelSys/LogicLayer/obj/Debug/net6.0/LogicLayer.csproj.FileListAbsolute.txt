@@ -1,0 +1,12 @@
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\bin\Debug\net6.0\LogicLayer.deps.json
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\bin\Debug\net6.0\LogicLayer.dll
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\bin\Debug\net6.0\ref\LogicLayer.dll
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\bin\Debug\net6.0\LogicLayer.pdb
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\obj\Debug\net6.0\LogicLayer.csproj.AssemblyReference.cache
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\obj\Debug\net6.0\LogicLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\obj\Debug\net6.0\LogicLayer.AssemblyInfoInputs.cache
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\obj\Debug\net6.0\LogicLayer.AssemblyInfo.cs
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\obj\Debug\net6.0\LogicLayer.csproj.CoreCompileInputs.cache
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\obj\Debug\net6.0\LogicLayer.dll
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\obj\Debug\net6.0\ref\LogicLayer.dll
+C:\Users\2003l\Documents\S2 Synthesis Assignment\s2-cb-07-synthesis-assignment\DuelSys\LogicLayer\obj\Debug\net6.0\LogicLayer.pdb

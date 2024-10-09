@@ -1,0 +1,118 @@
+image: mcr.microsoft.com/dotnet/sdk:8.0
+
+user-api-build:
+  stage: build
+  script:
+    - echo "Build User Api"
+    - 'cd festivalconnect-services/User.API/User.API'
+    - 'dotnet build'
+  rules:
+    - changes:
+      - "festivalconnect-services/User.API/**/*" #Only execute when there are changes in user api directory
+
+user-api-audit:
+  stage: audit
+  script:
+    - echo "Audit NuGet packages for User API"
+    - cd festivalconnect-services/User.API/User.API
+    - dotnet restore # Restore dependencies
+    - dotnet list package --vulnerable # Check for vulnerable packages
+    - dotnet list package --outdated # Check for outdated packages
+  allow_failure: true
+  rules:
+    - changes:
+      - "festivalconnect-services/User.API/**/*" # Only execute when there are changes in community api directory
+
+
+user-api-tests:
+  stage: test
+  script:
+    - echo "Run Tests of User Api"
+    - 'cd festivalconnect-services/User.API/UserApiTests'
+    - 'dotnet test'
+  rules:
+    - changes:
+      - "festivalconnect-services/User.API/**/*" #Only execute when there are changes in user api directory
+
+sonarqube-check-user:
+  stage: analyze
+  image: mcr.microsoft.com/dotnet/core/sdk:latest
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - cd festivalconnect-services/User.API
+    - dotnet tool list -g
+    - dotnet sonarscanner begin /k:"FestivalConnect-User.API" /d:sonar.login="$SONAR_TOKEN_USER_API" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+    - dotnet build
+    - dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
+    - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN_USER_API"
+    - dotnet build-server shutdown
+  allow_failure: true
+  rules:
+    - changes:
+      - "festivalconnect-services/User.API/**/*"  # Only execute when there are changes in user API directory
+
+user-api-integration-test:
+  stage: integration-test
+  image:
+    name: postman/newman_alpine33
+    entrypoint: [""]
+  script:
+    - echo "Integration tests"
+    - npx newman --version 
+    - cd festivalconnect-services/User.API
+    - docker-compose -f docker-compose.test.yml up -d
+    - npx newman run Integration-Tests-FestivalConnect-User-Api.json 
+    - docker-compose -f docker-compose.test.yml down
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "master"'
+    - changes:
+      - "festivalconnect-services/User.API/**/*" #Only execute when there are changes in user api directory
+
+userapi_security_scan:
+  stage: security_scan
+  image: aquasec/trivy:latest
+  script:
+    - trivy image --exit-code 0 --severity HIGH,CRITICAL lucasjacobs/userapi #scans the docker image for vunerabilities of high and critical severity
+    - trivy config --exit-code 0 --severity HIGH,CRITICAL k8s/user-api.yml #scans k8s configuration file of user for misconfigurations with high and critical severity
+    - trivy filesystem --exit-code 0 --severity HIGH,CRITICAL ./festivalconnect-services/User.API #scans local file of the front end  for high and critical severity
+  allow_failure: true
+
+user-docker-build:
+  stage: publish
+  before_script:
+    - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  script:
+    - echo "Deployment for user service"
+    - |
+      if (docker images -q userapi) {
+        docker rmi userapi
+      }
+    - docker build /Users/2003l/Videos/S6-Individual-FestivalConnect/s6-individual-festivalconnect/festivalconnect-services/User.API/. -t userapi
+    - docker tag userapi lucasjacobs/userapi
+    - docker push lucasjacobs/userapi
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "master" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+      changes:
+        - "festivalconnect-services/User.API/**/*"
+
+user-deploy:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli
+  script:
+    - echo "Deployment for user service"
+    - echo "login to azure"
+    - az login --service-principal -u "$AZURE_APP_ID" -p "$AZURE_PASSWORD" --tenant "$AZURE_TENANT_ID"
+    - az account set --subscription "$AZURE_SUBSCRIPTION_ID"
+    - echo "specific credentials for the aks"
+    - az aks get-credentials --resource-group "$AKS_RESOURCE_GROUP" --name "$AKS_CLUSTER_NAME" --overwrite-existing
+    - echo "deploy to AKS"
+    - cd k8s
+    - kubectl apply -f user-api.yml
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'

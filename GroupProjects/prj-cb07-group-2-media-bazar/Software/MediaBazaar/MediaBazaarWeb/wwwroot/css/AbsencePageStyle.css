@@ -1,0 +1,79 @@
+﻿.flexboxAbsenceinfo {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(5%);
+}
+
+.flexboxAbsenceContent {
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 750px;
+    height: 500px;
+    margin: 25px;
+    border-radius: 10px;
+    color: #ffff;
+}
+
+.TextAbsence {
+    margin: 25px;
+    text-align: center;
+}
+
+    .TextAbsence h1 {
+        padding: 20px 0;
+        border-bottom: 1px solid silver;
+        color: white;
+    }
+
+    .TextAbsence h4{
+        color: black;
+    }
+
+    .TextAbsence input[type = date] {
+        width: 100%;
+        border: 2px solid #06FEE0;
+        border-radius: 5px;
+        margin: 5px 0;
+        outline: none;
+        padding: 5px;
+        box-sizing: border-box;
+        font-size: large;
+    }
+
+    .TextAbsence input[type = text] {
+        width: 100%;
+        border: 1px solid #06FEE0;
+        border-radius: 5px;
+        margin: 5px 0;
+        outline: none;
+        padding: 5px;
+        box-sizing: border-box;
+        font-size: large;
+    }
+
+    .TextAbsence textarea {
+        width: 100%;
+        border: 2px solid #06FEE0;
+        border-radius: 5px;
+        margin: 8px 0;
+        outline: none;
+        padding: 8px;
+        box-sizing: border-box;
+        font-size: large;
+        resize: none;
+    }
+
+.flexboxVacationinfo {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(5%);
+}
+.flexboxVacationContent {
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 750px;
+    height: 600px;
+    margin: 25px;
+    border-radius: 10px;
+    color: #ffff;
+}

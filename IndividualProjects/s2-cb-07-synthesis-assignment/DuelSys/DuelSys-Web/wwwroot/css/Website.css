@@ -1,0 +1,246 @@
+﻿*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+figure {
+    margin: 16px 40px !important;
+}
+
+.background-image {
+    width: auto;
+    height: 140vh;
+    background-image: url('../images/bad.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+html,
+body,
+header,
+#intro{
+    height:100%;
+}
+
+#intro{
+    background-image: url('../images/sportsbackground.jpg');
+    background-size: cover;
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.flexboxLogin {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(35%);
+    text-align: center;
+}
+
+.InformationFlexBox {
+    background: rgba(0,0,0,0.80);
+    width: 550px;
+    height: 550px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+.FLexBoxLogin-image {
+    height: 200px;
+    margin-bottom: 0px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.FLexBoxLogin-image1 {
+    background-image: url('../images/loginIcon.png');
+}
+
+.FLexBoxLogin-image2 {
+    background-image: url('../images/sport2.jpg');
+}
+
+.flexboxRegister {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(20%);
+    text-align: center;
+}
+
+.flexboxRegisterContent {
+    background: rgba(0,0,0,0.80);
+    width: 650px;
+    height: 750px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+input[type = text] {
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=password] {
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.button1 {
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 0.1em solid deepskyblue;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 300;
+    color: deepskyblue;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+    .button1:hover {
+        color: white;
+        background-color: deepskyblue;
+    }
+
+@media all and (max-width:30em) {
+     .button1 {
+        display: block;
+        margin: 0.4em auto;
+    }
+}
+
+.tablefix {
+    justify-content: center;
+    transform: translateY(20%);
+}
+
+.flexboxHeading {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(20%);
+    text-align: center;
+}
+
+.flexboxHeadingContent {
+    background: rgba(0,0,0,0.80);
+    width: 250px;
+    height: 50px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+.sizeText {
+    margin: 25px;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+}
+
+.flexboxRegisterContent h1{
+    color: white;
+}
+
+.home{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: white;
+}
+
+.FlexboxHome {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(80%);
+    text-align: center;
+}
+
+.FlexboxHomeContent {
+    background: rgba(0,0,0,0.80);
+    width: 550px;
+    height: 150px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+.FlexboxHomeContent h1{
+    color: white;
+}
+
+.FlexboxHomeContent h3{
+    color: white;
+}
+
+.FlexboxError {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    transform: translateY(20%);
+    text-align: center;
+}
+
+.FlexboxErrorContent {
+    background: rgba(0,0,0,0.80);
+    width: 650px;
+    height: 650px;
+    margin: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+.FLexBoxError-image {
+    height: 400px;
+    margin-bottom: 0px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.FLexBoxError-image1 {
+    background-image: url('../images/errorImage.JPG');
+}
+
+.FlexboxErrorContent p{
+    font-size: 16px;
+    color: white;
+}

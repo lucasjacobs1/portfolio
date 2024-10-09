@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: 
+  name: tls-secret
+  namespace: default
+spec:
+  dnsNames: 
+    - festivalconnect.germanywestcentral.cloudapp.azure.com
+  secretName: tls-secret
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

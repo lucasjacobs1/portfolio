@@ -1,0 +1,36 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "df82f1cf-6e42-4e71-90a5-69aca75e667b": {
+      "ProjectGuid": "df82f1cf-6e42-4e71-90a5-69aca75e667b",
+      "DisplayName": "DuelSys",
+      "ColorIndex": 0
+    },
+    "1313e806-9411-46c8-886f-71dc441cb5e0": {
+      "ProjectGuid": "1313e806-9411-46c8-886f-71dc441cb5e0",
+      "DisplayName": "DuelSys-Web",
+      "ColorIndex": 1
+    },
+    "18c58651-c154-40fb-936c-cf8ba949df1e": {
+      "ProjectGuid": "18c58651-c154-40fb-936c-cf8ba949df1e",
+      "DisplayName": "LogicLayer",
+      "ColorIndex": 2
+    },
+    "4341796d-cf45-4a2d-a52e-937d634b0860": {
+      "ProjectGuid": "4341796d-cf45-4a2d-a52e-937d634b0860",
+      "DisplayName": "DataLayer",
+      "ColorIndex": 3
+    },
+    "4cbf9a9e-7d0a-461d-8887-455f19a3c9fc": {
+      "ProjectGuid": "4cbf9a9e-7d0a-461d-8887-455f19a3c9fc",
+      "DisplayName": "UnitTests",
+      "ColorIndex": 4
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 5
+}
