@@ -1,1 +1,1 @@
-Pleaso only read this for getting to know what my internship was about.
+Please only read this for getting to know what my internship was about.
